@@ -65,14 +65,12 @@ def create_db(files1, files2, class1, class2):
 
 
 def create_fnames_df(files1, files2, class1, class2):
-
-    exp_data = []
-
+    df = []
     for file in files1:
-        exp_data.append([file, class1])
+        df.append([file, class1])
     for file in files2:
-        exp_data.append([file, class2])
-    training_df = pd.DataFrame(exp_data)    
+        df.append([file, class2])
+    training_df = pd.DataFrame(df)    
     training_df.columns = ['filename', 'label']      
     return training_df
     
@@ -102,6 +100,8 @@ def create_feature_df(files1, files2, class1, class2):
     labels = pd.DataFrame()
     for i in range(0, len(training_df)):
         labels = labels.append([training_df.iloc[i]["label"]], ignore_index=True)
+        
+    print("Feature matrix created")
 
     return features_df, labels
 
@@ -112,7 +112,7 @@ def create_feature_df(files1, files2, class1, class2):
 def test_on_2():
 
     #essai sur deux classes A et N 
-    files1,files2 = select('A','N')
+    files1, files2 = select('A','N')
     
     #data,labels = create_db(files1,files2,'A','N')
     

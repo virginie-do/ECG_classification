@@ -47,9 +47,6 @@ def logspec_features(filename):
 
 
 def mfcc_features(filename):
-    """
-    Compute MFCC features
-    """
     signal = open_data(filename)
     mfcc_feat = librosa.feature.mfcc(signal, srate)
     # take mean of all rows
@@ -58,9 +55,6 @@ def mfcc_features(filename):
     
 
 def tempo_features(filename):
-    """
-    Compute MFCC features
-    """
     signal = open_data(filename)
     tempo_feat = librosa.feature.tempogram(signal, srate)
     # take mean of all rows
