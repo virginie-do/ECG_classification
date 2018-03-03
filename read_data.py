@@ -10,7 +10,7 @@ import scipy.io
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy import signal
+#from scipy import signal
 import librosa
 import librosa.display
 
@@ -40,7 +40,7 @@ def visualization():
 
 def logspec_features(filename):
     signal = open_data(filename)    
-    features = librosa.amplitude_to_db(librosa.stft(signal), ref=np.max)
+    features = librosa.amplitude_to_db(librosa.magphase(librosa.stft(signal))[0], ref=np.max)
     # take mean of all rows
     features = features.T.mean(axis=0)
     return features
@@ -81,3 +81,10 @@ def plot_spectrogram(filename):
 
 
 #plot_spectrogram('training2017/A00003.mat')
+
+def plot_repartition():
+    labels_df = pd.read_csv("labels.csv", sep=',', names=['fname', 'label'])
+    labels_df['label'].hist()
+    
+#plot_repartition()
+    

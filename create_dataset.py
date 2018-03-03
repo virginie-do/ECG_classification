@@ -16,9 +16,9 @@ from read_data import open_data, logspec_features, mfcc_features, tempo_features
 
 
 #selection de 50 noms de fichiers depuis le fichier labels.csv
-def select(class1,class2):
+def select2(class1,class2):
     
-    data=pd.read_csv('labels.csv',sep=',')
+    data=pd.read_csv('labels.csv',sep=',', names=['fname', 'label'])
     counter1=0
     counter2=0
     step=0
@@ -35,6 +35,23 @@ def select(class1,class2):
         
     print('Selection done')        
     return files1, files2
+
+
+def select_all2(class1,class2):
+    
+    data=pd.read_csv('labels.csv',sep=',', names=['fname', 'label'])
+    nfiles = data.shape[0]
+    files1,files2=[],[]
+    for step in range(nfiles):      
+        if(data.values[step][1]==class1):
+            files1.append(data.values[step][0])
+        elif(data.values[step][1]==class2):
+            files2.append(data.values[step][0])
+        
+    print('Selection done')        
+    return files1, files2
+
+
 
 
 #creation des sets d'apprentissage pour deux classes
@@ -61,7 +78,7 @@ def create_db(files1, files2, class1, class2):
 
 def create_fnames_df(class1, class2):
     
-    files1, files2 = select(class1, class2)
+    files1, files2 = select_all2(class1, class2)
     df = []
     for file in files1:
         df.append([file, class1])
@@ -87,9 +104,9 @@ def create_feature_df(class1, class2):
         file = "training2017/{0}".format(training_df.iloc[i]["filename"])
         mfcc_feat = mfcc_features(file)
         logspec_feat = logspec_features(file)
-        tempo_feat = tempo_features(file)
+        #tempo_feat = tempo_features(file)
         comb_feat = np.append(mfcc_feat, logspec_feat)
-        comb_feat = np.append(comb_feat, tempo_feat)
+        #comb_feat = np.append(comb_feat, tempo_feat)
         
         #comb_feat = mfcc_features(file)
         features_df = features_df.append([comb_feat], ignore_index=True)

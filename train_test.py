@@ -10,16 +10,19 @@ import numpy as np
 
 from sklearn.preprocessing import LabelEncoder, scale, MinMaxScaler
 from sklearn.model_selection import train_test_split
+from sklearn.feature_selection import SelectFromModel
 
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 
 from keras.utils import np_utils
 
-from create_dataset import create_feature_df
+from create_dataset import create_feature_df, create_db, select2
 
 import cma
 
+
+## Hyperparameter tuning
 
 class Objective_Function(object):
 # to be able to inerhit from the function class in Python 2, we need (object)
@@ -64,13 +67,34 @@ def tuned_XGB():
     eta = params[0]**2
     gamma = params[1]**2
     model = XGBClassifier(eta=eta, gamma=gamma)
-    return model
-    
-    
+    return res[0], model
+
+
+
+
+## Loading data
+ 
 
 data, labels = create_feature_df('A','N')
-
 labels = labels.values.ravel()
+
+#files1, files2 = select('A','N')
+#data, labels = create_db(files1, files2, 'A','N')
+#data = np.asarray(data)
+
+##########################################################################
+
+## Feature selection
+
+clf = RandomForestClassifier()
+clf = clf.fit(data, labels)
+print('Feature importances :')
+print(clf.feature_importances_  )
+model = SelectFromModel(clf, prefit=True)
+data = model.transform(data)
+data.shape               
+(150, 2)
+
   
 X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=0.20)
 
@@ -79,9 +103,9 @@ print('Train sets created')
 ##########################################################################
  
 # Random forest
-clf = RandomForestClassifier()
-clf.fit(X_train,y_train)
-print('Random forest score : {}'.format(clf.score(X_test,y_test)))  
+#clf = RandomForestClassifier()
+#clf.fit(X_train,y_train)
+#print('Random forest score : {}'.format(clf.score(X_test,y_test)))  
 
 
 # XGBoost
@@ -89,8 +113,8 @@ xgb = XGBClassifier()
 xgb.fit(X_train, y_train)
 print('XGBoost score : {}'.format(xgb.score(X_test,y_test)))
 
-# XGBoost tuned
-xgb2 = tuned_XGB()
+## XGBoost tuned
+params, xgb2 = tuned_XGB()
 xgb2.fit(X_train, y_train)
 print('Tuned XGBoost score : {}'.format(xgb.score(X_test,y_test)))
 
