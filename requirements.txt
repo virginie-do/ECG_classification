@@ -6,4 +6,5 @@ scikit-learn
 cma
 librosa
 xgboost
+tensorflow
 keras

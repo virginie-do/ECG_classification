@@ -9,7 +9,7 @@ Created on Tue Feb 27 14:07:33 2018
 
 import scipy.io
 import pandas as pd
-import matplotlib.pyplot as plt
+
 import numpy as np
 
 from read_data import open_data, logspec_features, mfcc_features, tempo_features
