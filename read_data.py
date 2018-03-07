@@ -20,7 +20,7 @@ srate = 300
 def open_data(filename):   
     mat = scipy.io.loadmat(filename)
     # Conversion microvolts --> mV 
-    data = mat['val'][0]/1000
+    data = mat['val'][0]/1000.
     # Conversion mV --> dBV
     #data = 20*np.log(data/1000)
     return data
