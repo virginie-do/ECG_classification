@@ -77,7 +77,7 @@ hist = model.fit(X_train, y_train, validation_data=(X_test, y_test), batch_size=
 pd.DataFrame(hist.history).to_csv(path_or_buf='History.csv')
 
 
-
+print('CNN score : {}'.format(model.evaluate(X_test,y_test)))
 
 
 
