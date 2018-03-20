@@ -63,7 +63,7 @@ def tuned_XGB():
     fun = Objective_Function(objective_XGB)
     res = cma.fmin(fun, [0.3, 0], 1)
     cma.plot()
-    cma.savefig('fig_cma.png')
+    cma.savefig('figures_cma.png')
     params = res[0]
     eta = params[0]**2
     gamma = params[1]**2
