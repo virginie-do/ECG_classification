@@ -1,4 +1,4 @@
-p#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Tue Feb 27 14:07:33 2018
@@ -63,6 +63,7 @@ def tuned_XGB():
     fun = Objective_Function(objective_XGB)
     res = cma.fmin(fun, [0.3, 0], 1)
     cma.plot()
+    cma.savefig('fig_cma.png')
     params = res[0]
     eta = params[0]**2
     gamma = params[1]**2
@@ -108,15 +109,13 @@ print('Train sets created')
 #print('Random forest score : {}'.format(clf.score(X_test,y_test)))  
 
 
-# XGBoost
-xgb = XGBClassifier()
-xgb.fit(X_train, y_train)
-print('XGBoost score : {}'.format(xgb.score(X_test,y_test)))
-
 ## XGBoost tuned
 params, xgb2 = tuned_XGB()
 xgb2.fit(X_train, y_train)
 print('Tuned XGBoost score : {}'.format(xgb.score(X_test,y_test)))
 
-
+# XGBoost
+xgb = XGBClassifier()
+xgb.fit(X_train, y_train)
+print('XGBoost score : {}'.format(xgb.score(X_test,y_test)))
 

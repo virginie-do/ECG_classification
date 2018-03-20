@@ -8,3 +8,4 @@ librosa
 xgboost
 tensorflow
 keras
+h5py
